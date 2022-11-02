@@ -4,7 +4,7 @@ namespace AllDailyDuties_AuthService.Models.Users
     public class User
     {
         public Guid Id { get; set; }
-        public string UserName { get; set; }
+        public string Username { get; set; }
 
         [JsonIgnore]
         public string Password { get; set; }

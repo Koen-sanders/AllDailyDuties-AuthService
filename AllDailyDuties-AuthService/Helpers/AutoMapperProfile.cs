@@ -9,6 +9,7 @@ namespace AllDailyDuties_AuthService.Helpers
         {
             // CreateRequest -> User
             CreateMap<CreateRequest, User>();
+            CreateMap<User, AuthResponse>();
         }
     }
 }

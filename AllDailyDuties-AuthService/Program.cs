@@ -1,4 +1,6 @@
 using AllDailyDuties_AuthService.Helpers;
+using AllDailyDuties_AuthService.Middleware.Authorization;
+using AllDailyDuties_AuthService.Middleware.Authorization.Interfaces;
 using AllDailyDuties_AuthService.Services;
 using AllDailyDuties_AuthService.Services.Interfaces;
 
@@ -10,6 +12,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
+builder.Services.AddScoped<IJwtUtils, JwtUtils>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -24,6 +28,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseAuthorization();
 app.UseMiddleware<ErrorHandlerMiddleware>();
+app.UseMiddleware<JwtMiddleware>();
 app.MapControllers();
 
 app.Run();
