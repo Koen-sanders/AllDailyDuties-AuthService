@@ -1,4 +1,5 @@
-﻿using AllDailyDuties_AuthService.Models.Users;
+﻿using AllDailyDuties_AuthService.Middleware.Authorization.Interfaces;
+using AllDailyDuties_AuthService.Models.Users;
 using AllDailyDuties_AuthService.Services.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -12,12 +13,41 @@ namespace AllDailyDuties_AuthService.Controllers
         private readonly ILogger<UserController> _logger;
         private IUserService _userService;
         private IMapper _mapper;
+        private IJwtUtils _jwtUtils;
         public UserController(ILogger<UserController> logger, IUserService userService,
-        IMapper mapper)
+        IMapper mapper, IJwtUtils jwtUtils)
         {
             _logger = logger;
             _userService = userService;
             _mapper = mapper;
+            _jwtUtils = jwtUtils;
+        }
+        [HttpPost("login")]
+        public IActionResult Login(AuthRequest model)
+        {
+            var loginResult = _userService.Authenticate(model);
+            return Ok(loginResult);
+
+        }
+        [HttpGet("verifyLogin")]
+        public IActionResult VerifyLogin()
+        {
+            var authHeader = Request.HttpContext?.Request.Headers.Authorization;
+            if (string.IsNullOrEmpty(authHeader?.ToString()))
+                return Ok(false);
+
+            var jwt = authHeader?.ToString().Replace("Bearer ", "");
+
+
+            if (string.IsNullOrEmpty(jwt))
+                return Ok(false);
+
+            var user =  _jwtUtils.ValidateToken(jwt);
+            if (user is null)
+                return Ok(false);
+
+            // Valid JWT
+            return Ok(user);
         }
 
         [HttpGet]
