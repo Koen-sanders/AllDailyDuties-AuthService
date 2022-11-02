@@ -1,0 +1,24 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  workflow_dispatch:
+
+jobs:
+  build_image:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set image tag
+        run: echo TAG=127.0.0.1:5000/add-auth-service:$(date +%s) >> $GITHUB_ENV
+
+      - name: Build docker image and push to local registry
+        run: |
+          docker build . --file AllDailyDuties-AuthService/Dockerfile -t ${{ env.TAG }},
+          docker push ${{ env.TAG }}
