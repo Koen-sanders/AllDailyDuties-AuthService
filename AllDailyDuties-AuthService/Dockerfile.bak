@@ -7,7 +7,7 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["AllDailyDuties-AuthService/AllDailyDuties-AuthService.csproj", "AllDailyDuties-AuthService/"]
+COPY ["AllDailyDuties-AuthService.csproj", "AllDailyDuties-AuthService/"]
 RUN dotnet restore "AllDailyDuties-AuthService/AllDailyDuties-AuthService.csproj"
 COPY . .
 WORKDIR "/src/AllDailyDuties-AuthService"
