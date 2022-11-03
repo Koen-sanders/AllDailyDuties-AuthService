@@ -16,4 +16,4 @@ spec:
         - name: "koencluster-637b"
           image: "koenregistry.azurecr.io/koencluster"
           ports:
-          - containerPort: 80
+          - containerPort: 9000

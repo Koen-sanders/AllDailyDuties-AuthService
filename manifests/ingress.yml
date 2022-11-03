@@ -13,4 +13,4 @@ spec:
           service:
             name: "koencluster-637b"
             port:
-              number: 9000
+              number: 80
