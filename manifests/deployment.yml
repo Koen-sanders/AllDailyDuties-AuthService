@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: "koencluster-637b"
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: "koencluster-637b"
+  template:
+    metadata:
+      labels:
+        app: "koencluster-637b"
+    spec:
+      containers:
+        - name: "koencluster-637b"
+          image: "koenregistry.azurecr.io/koencluster"
+          ports:
+          - containerPort: 80
