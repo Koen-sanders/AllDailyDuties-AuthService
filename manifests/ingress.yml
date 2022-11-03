@@ -4,7 +4,7 @@ metadata:
   name: "koencluster-637b"
 spec:
   rules:
-  - host: default-koencluster-637b.83e46d6f6db54466a876.northeurope.aksapp.io
+  - host: http://51.104.148.240
     http:
       paths:
       - path: /
