@@ -2,6 +2,7 @@
 using AllDailyDuties_AuthService.Models.Users;
 using AllDailyDuties_AuthService.Services.Interfaces;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AllDailyDuties_AuthService.Controllers
@@ -49,7 +50,7 @@ namespace AllDailyDuties_AuthService.Controllers
             // Valid JWT
             return Ok(user);
         }
-
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpGet]
         public IActionResult GetAll()
         {

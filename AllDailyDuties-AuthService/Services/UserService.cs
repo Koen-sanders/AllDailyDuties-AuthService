@@ -3,6 +3,8 @@ using AllDailyDuties_AuthService.Middleware.Authorization.Interfaces;
 using AllDailyDuties_AuthService.Models.Users;
 using AllDailyDuties_AuthService.Services.Interfaces;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using AllDailyDuties_AuthService.Models.Users;
 
 namespace AllDailyDuties_AuthService.Services
 {
@@ -36,7 +38,7 @@ namespace AllDailyDuties_AuthService.Services
         {
             return _context.Users;
         }
-
+        
         public User GetById(Guid id)
         {
             return getUser(id);

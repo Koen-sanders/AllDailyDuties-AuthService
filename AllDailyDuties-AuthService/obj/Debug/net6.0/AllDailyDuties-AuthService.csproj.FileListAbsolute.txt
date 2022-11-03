@@ -43,3 +43,6 @@ C:\Users\koen\Desktop\Semester6\individual\AllDailyDuties-AuthService\AllDailyDu
 C:\Users\koen\Desktop\Semester6\individual\AllDailyDuties-AuthService\AllDailyDuties-AuthService\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
 C:\Users\koen\Desktop\Semester6\individual\AllDailyDuties-AuthService\AllDailyDuties-AuthService\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
 C:\Users\koen\Desktop\Semester6\individual\AllDailyDuties-AuthService\AllDailyDuties-AuthService\bin\Debug\net6.0\System.Text.Json.dll
+C:\Users\koen\Desktop\Semester6\individual\AllDailyDuties-AuthService\AllDailyDuties-AuthService\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\koen\Desktop\Semester6\individual\AllDailyDuties-AuthService\AllDailyDuties-AuthService\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\koen\Desktop\Semester6\individual\AllDailyDuties-AuthService\AllDailyDuties-AuthService\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
