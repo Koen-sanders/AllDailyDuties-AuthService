@@ -1,2 +1,3 @@
 # AllDailyDuties-Authservice
 AllDailyDuties-Authservice
+.
