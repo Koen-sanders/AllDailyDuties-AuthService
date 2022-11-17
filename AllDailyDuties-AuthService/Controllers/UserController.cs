@@ -54,8 +54,17 @@ namespace AllDailyDuties_AuthService.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            var users = _userService.GetAll();
-            return Ok(users);
+            try
+            {
+                var users = _userService.GetAll();
+                return Ok(users);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                throw;
+            }
+
         }
 
         [HttpPost]
