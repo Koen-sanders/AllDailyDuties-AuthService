@@ -28,7 +28,7 @@ jobs:
     - name: Build and push image to registry
       id: build-image
       run: |
-        docker build "$GITHUB_WORKSPACE/AllDailyDuties-AuthService/" -f  "Dockerfile" -t 192.168.240.3:32000/addauthservice:latest --label dockerfile-path=Dockerfile
+        docker build "$GITHUB_WORKSPACE/AllDailyDuties-AuthService/AllDailyDuties-AuthService" -f  "Dockerfile" -t 192.168.240.3:32000/addauthservice:latest --label dockerfile-path=Dockerfile
         docker push 192.168.240.3:32000/addauthservice:latest
     
     - name: Deploy to Microk8s cluster
