@@ -4,6 +4,8 @@ using AllDailyDuties_AuthService.Middleware.Authorization.Interfaces;
 using AllDailyDuties_AuthService.Services;
 using AllDailyDuties_AuthService.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -47,5 +49,11 @@ app.UseAuthorization();
 app.UseMiddleware<ErrorHandlerMiddleware>();
 app.MapControllers();
 
+app.MapGet("/", test);
+async Task test(HttpContext context)
+{
+    byte[] bytes = Encoding.ASCII.GetBytes("foo");
+    await context.Response.Body.WriteAsync(bytes);
+}
 app.Run("http://localhost:80");
 
