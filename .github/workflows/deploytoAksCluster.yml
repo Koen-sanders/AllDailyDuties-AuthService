@@ -29,7 +29,7 @@ jobs:
       id: build-image
       run: |
         sudo docker build "$GITHUB_WORKSPACE/AllDailyDuties-AuthService/" -t 192.168.240.6:32000/addauthservice:latest --label dockerfile-path=Dockerfile
-        sudo docker push 192.168.240.3:32000/addauthservice:latest
+        sudo docker push 192.168.240.6:32000/addauthservice:latest
     
     - name: Deploy to Microk8s cluster
       id: deploy
