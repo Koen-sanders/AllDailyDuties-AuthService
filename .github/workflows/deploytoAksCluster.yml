@@ -1,51 +1,39 @@
-on: [push]
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
+  build-test:
+    runs-on: self-hosted
     steps:
-    - uses: actions/checkout@master
-    
-    - uses: azure/docker-login@v1
+    - uses: actions/checkout@v3
+
+    - name: Set up Go
+      uses: actions/setup-go@v3
       with:
-        login-server: koenregistry.azurecr.io
-        username: ${{ secrets.acr_koenregistry_username }}
-        password: ${{ secrets.acr_koenregistry_password }}
+        go-version: 1.19
+
+    - name: Build
+      run: go build -v ./...
+
+    - name: Test
+      run: go test -v ./...
+
+  build-and-deploy:
+    runs-on: self-hosted
+    needs:  build-test
+    steps:
+    - uses: actions/checkout@v3
     
-    - name: Build and push image to ACR
+    - name: Build and push image to registry
       id: build-image
       run: |
-        docker build "$GITHUB_WORKSPACE/AllDailyDuties-AuthService" -f  "AllDailyDuties-AuthService/Dockerfile" -t koenregistry.azurecr.io/koencluster:${{ github.sha }} --label dockerfile-path=AllDailyDuties-AuthService/Dockerfile
-        docker push koenregistry.azurecr.io/koencluster:${{ github.sha }}
+        docker build "$GITHUB_WORKSPACE/AllDailyDuties-AuthService/" -f  "Dockerfile" -t http://http://192.168.240.3:32000/discountservice:latest --label dockerfile-path=Dockerfile
+        docker push http://http://192.168.240.3:32000/discountservice:latest
     
-    - uses: azure/k8s-set-context@v1
-      with:
-         kubeconfig: ${{ secrets.aks_koencluster_kubeConfig }}
-      id: login
-    
-    - name: Create namespace
+    - name: Deploy to Microk8s cluster
+      id: deploy
       run: |
-        namespacePresent=`kubectl get namespace | grep default | wc -l`
-        if [ $namespacePresent -eq 0 ]
-        then
-            echo `kubectl create namespace default`
-        fi
-
-    - uses: azure/k8s-create-secret@v1
-      with:
-        namespace: default
-        container-registry-url: koenregistry.azurecr.io
-        container-registry-username: ${{ secrets.acr_koenregistry_username }}
-        container-registry-password: ${{ secrets.acr_koenregistry_password }}
-        secret-name: koenclusterdockerauth
-       
-    - uses: azure/k8s-deploy@v1.2
-      with:
-        namespace: default
-        manifests: |
-          manifests/deployment.yml
-          manifests/service.yml
-          manifests/ingress.yml
-        images: |
-          koenregistry.azurecr.io/koencluster:${{ github.sha }}
-        imagepullsecrets: |
-          koenclusterdockerauth
+        microk8s kubectl apply -f ./manifests/deployment.yml
+        microk8s kubectl apply -f ./manifests/service.yml
