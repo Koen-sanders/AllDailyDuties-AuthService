@@ -5,6 +5,7 @@ using AllDailyDuties_AuthService.Services;
 using AllDailyDuties_AuthService.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.HttpOverrides;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -44,6 +45,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+var forwardOpts = new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedFor
+};
+//TODO: Set this up to only accept the forwarded headers from the load balancer
+forwardOpts.KnownNetworks.Clear();
+forwardOpts.KnownProxies.Clear();
+app.UseForwardedHeaders(forwardOpts);
 
 app.UseAuthorization();
 app.UseMiddleware<ErrorHandlerMiddleware>();
